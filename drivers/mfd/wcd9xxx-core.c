@@ -563,6 +563,23 @@ int wcd9xxx_interface_reg_write(struct wcd9xxx *wcd9xxx, unsigned short reg,
 
 	return ret;
 }
+
+#ifdef CONFIG_SOUND_CONTROL_HAX_3_GPL
+int wcd9xxx_reg_read_safe(struct wcd9xxx *wcd9xxx, unsigned short reg)
+{
+        u8 val;
+        int ret;
+
+        ret = wcd9xxx_read(wcd9xxx, reg, 1, &val, false);
+
+        if (ret < 0)
+                return ret;
+        else
+                return val;
+}
+EXPORT_SYMBOL_GPL(wcd9xxx_reg_read_safe);
+#endif
+ 
 EXPORT_SYMBOL(wcd9xxx_interface_reg_write);
 
 static int __wcd9xxx_bulk_read(
